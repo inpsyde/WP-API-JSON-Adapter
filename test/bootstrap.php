@@ -13,7 +13,7 @@ WPAPIAdapter\register_autoloading( dirname( __DIR__ ), $requisite );
 
 $requisite->addRule(
 	new Requisite\Rule\NamespaceDirectoryMapper(
-		__DIR__ . '/Stubs',
+		__DIR__ . '/Stub',
 		'\\'
 	)
 );
