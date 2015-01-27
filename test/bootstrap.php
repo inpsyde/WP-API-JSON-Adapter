@@ -17,3 +17,9 @@ $requisite->addRule(
 		'\\'
 	)
 );
+$requisite->addRule(
+	new Requisite\Rule\NamespaceDirectoryMapper(
+		__DIR__ . '/TestCase',
+		__NAMESPACE__ . '\TestCase'
+	)
+);
