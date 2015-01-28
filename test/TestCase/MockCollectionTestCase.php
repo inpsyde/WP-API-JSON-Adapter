@@ -47,15 +47,14 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		foreach ( $field_handlers as $field => $handlers ) {
+		if ( ! empty( $field_handlers ) ) {
 			$mock->expects( $this->any() )
 				->method( 'get_handlers' )
 				->willReturnCallback(
-					function( $name ) use ( $field, $handlers ) {
-						if ( $name === $field )
-							return $handlers;
-
-						return array();
+					function( $name ) use ( $field_handlers ) {
+						return isset( $field_handlers[ $name ] )
+							? $field_handlers[ $name ]
+							: array();
 					}
 				);
 		}
