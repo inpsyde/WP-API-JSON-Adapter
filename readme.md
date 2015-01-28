@@ -10,10 +10,8 @@ All field handlers are managed by instances of `WPAPIAdapter\FieldHandlerReposit
 are handled separately to those which add new fields.
 
 To access the repositories there are two actions provided:
-```
-'wpapiadapter_register_post_change_field_handler'
-'wpapiadapter_register_post_add_field_handler'
-```
+ * `wpapiadapter_register_post_change_field_handler`
+ * `wpapiadapter_register_post_add_field_handler`
 
 There are already two handler implementations to rename or unset a field:
   * `WPAPIAdapter\Field\RenameFieldHandler`
@@ -23,7 +21,7 @@ There are already two handler implementations to rename or unset a field:
 
 Rename the `title` field to `custom_title`:
 
-```
+```php
 add_action(
 	'wpapiadapter_register_post_change_field_handler',
 	function( WPAPIAdapter\FieldHandlerRepository $repository ) {
@@ -34,7 +32,7 @@ add_action(
 
 Unset the field `status`:
 
-```
+```php
 add_action(
 	'wpapiadapter_register_post_change_field_handler',
 	function( WPAPIAdapter\FieldHandlerRepository $repository ) {
@@ -61,7 +59,7 @@ and after:
 ```
 
 Code:
-```
+```php
 add_action(
 	'wpapiadapter_register_post_change_field_handler',
 	function( WPAPIAdapter\FieldHandlerRepository $repository ) {
