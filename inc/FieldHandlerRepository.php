@@ -9,7 +9,7 @@ class FieldHandlerRepository {
 	/**
 	 * @type array
 	 */
-	private $handler = array();
+	private $handlers = array();
 
 	/**
 	 * @param string $field
@@ -17,10 +17,10 @@ class FieldHandlerRepository {
 	 */
 	public function add_handler( $field, Field\FieldHandlerInterface $handler ) {
 
-		if ( ! isset( $this->handler[ $field ] ) )
-			$this->handler[ $field ] = array();
+		if ( ! isset( $this->handlers[ $field ] ) )
+			$this->handlers[ $field ] = array();
 
-		$this->handler[ $field ][] = $handler;
+		$this->handlers[ $field ][] = $handler;
 	}
 
 	/**
@@ -29,8 +29,8 @@ class FieldHandlerRepository {
 	 */
 	public function get_handlers( $field ) {
 
-		return isset( $this->handler[ $field ] )
-			? $this->handler[ $field ]
+		return isset( $this->handlers[ $field ] )
+			? $this->handlers[ $field ]
 			: array();
 	}
 }
