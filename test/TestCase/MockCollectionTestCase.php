@@ -18,7 +18,7 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 		$mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
 			->disableOriginalConstructor()
 			->getMock();
-		$mock->expects( $this->exactly( 1 ) )
+		$mock->expects( $this->any() )
 			->method( 'handle' )
 			->willReturn( NULL );
 

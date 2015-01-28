@@ -60,9 +60,12 @@ class PostFieldController implements FieldControllerInterface {
 				$key,
 				$this->entity_to_object( $data_iterator->current() )
 			);
-			// not sure whether $data_iterator->current() points still to the original reference
-			$this->iterate_entity( $data_iterator->offsetGet( $key ) );
+
+			$this->iterate_entity( $data_iterator->current() );
+			$data_iterator->next();
 		}
+
+		$response->set_data( $data_iterator->getArrayCopy() );
 	}
 
 	/**
