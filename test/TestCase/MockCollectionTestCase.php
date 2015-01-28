@@ -82,6 +82,13 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 							: NULL;
 					}
 				);
+			$mock->expects( $this->any() )
+				->method( 'get_fields_to_handle' )
+				->willReturn( array_keys( $field_handlers ) );
+		} else {
+			$mock->expects( $this->any() )
+				->method( 'get_fields_to_handle' )
+				->willReturn( array() );
 		}
 
 		return $mock;

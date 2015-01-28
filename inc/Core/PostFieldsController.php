@@ -46,8 +46,9 @@ class PostFieldsController implements FieldControllerInterface {
 		/**
 		 * @param WPAPIAdapter\FieldHandlerRepository
 		 */
-		do_action( 'wpapiadapter_register_post_add_field_handler',    $this->change_repository );
+		do_action( 'wpapiadapter_register_post_add_field_handler',    $this->add_repository );
 
+		// apply change handlers
 		$data_iterator = new \ArrayIterator( $response->get_data() );
 		while ( $data_iterator->valid() ) {
 			// ignore non-object and non-arrays
@@ -80,6 +81,26 @@ class PostFieldsController implements FieldControllerInterface {
 			$entity_iterator->process_field();
 			$entity_iterator->next();
 		};
+		$this->attach_new_fields( $entity, $entity_iterator );
+	}
+
+	/**
+	 * @param \stdClass    $entity
+	 * @param \ArrayAccess $entity_iterator
+	 */
+	private function attach_new_fields( \stdClass $entity, \ArrayAccess $entity_iterator ) {
+
+		foreach ( $this->add_repository->get_fields_to_handle() as $field ) {
+			foreach ( $this->add_repository->get_handlers( $field ) as $handler ) {
+				if ( $entity_iterator->offsetExists( $handler->get_name() ) )
+					continue; // Todo: thinking about error handling. Not sure it's worth an Exeption.
+
+				$entity_iterator->offsetSet(
+					$handler->get_name(),
+					$handler->get_value()
+				);
+			}
+		}
 	}
 
 	/**

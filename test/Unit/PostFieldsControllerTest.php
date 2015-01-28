@@ -51,14 +51,27 @@ class PostFieldsControllerTest extends TestCase\MockCollectionTestCase {
 			->method( 'get_value' )
 			->willReturn( 1 ); //must be 1 due to the $expected_data
 
+		$new_field_handler = $this->get_rename_field_handler_mock();
+		$new_field_handler->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'custom_field' );
+		$new_field_handler->expects( $this->any() )
+			->method( 'get_value' )
+			->willReturn( "I'm new" ); //must be 1 due to the $expected_data
 
-		$field_handlers = array(
+		$change_field_handlers = array(
 			'author' => array(
 				$author_handler
 			)
 		);
-		$edit_field_repo = $this->get_field_repository_mock( $field_handlers );
-		$add_field_repo = $this->get_field_repository_mock();
+		$add_field_handlers = array(
+			'custom_field' => array(
+				$new_field_handler
+			)
+		);
+
+		$edit_field_repo = $this->get_field_repository_mock( $change_field_handlers );
+		$add_field_repo = $this->get_field_repository_mock( $add_field_handlers );
 
 		// wp mock
 		// it's fu'in buggy
@@ -144,7 +157,8 @@ class PostFieldsControllerTest extends TestCase\MockCollectionTestCase {
 						'parent' => 0,
 						'link' => 'http://wpapi.dev/hallo-welt/',
 						'date' => '2015-01-18T15:48:08',
-						'author_ID' => 1
+						'author_ID' => 1,
+						'custom_field' => "I'm new"
 					),
 					(object) array(
 						'ID' => 2,
@@ -155,6 +169,7 @@ class PostFieldsControllerTest extends TestCase\MockCollectionTestCase {
 						'link' => 'http://wpapi.dev/hallo-welt/',
 						'date' => '2015-01-18T15:48:08',
 						'author_ID' => 1,
+						'custom_field' => "I'm new"
 					),
 					(object) array(
 						'ID' => 3,
@@ -164,7 +179,8 @@ class PostFieldsControllerTest extends TestCase\MockCollectionTestCase {
 						'parent' => 0,
 						'link' => 'http://wpapi.dev/hallo-welt/',
 						'date' => '2015-01-18T15:48:08',
-						'author_ID' => 1
+						'author_ID' => 1,
+						'custom_field' => "I'm new"
 					)
 				)
 			)
