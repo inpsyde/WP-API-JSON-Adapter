@@ -39,5 +39,29 @@ class FieldHandlerRepositoryTest extends \PHPUnit_Framework_TestCase {
 			$testee->get_handlers( 'one' )
 		);
 	}
+
+	public function test_get_fields_to_handle() {
+
+		$rename_handler_mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$testee = new WPAPIAdapter\FieldHandlerRepository;
+		$testee->add_handler( 'ID', $rename_handler_mock );
+		$testee->add_handler( 'title', $rename_handler_mock );
+		$testee->add_handler( 'content', $rename_handler_mock );
+		$testee->add_handler( 'author_ID', $rename_handler_mock );
+
+		$expected = array(
+			'ID',
+			'title',
+			'content',
+			'author_ID'
+		);
+		$this->assertSame(
+			$expected,
+			$testee->get_fields_to_handle()
+		);
+	}
 }
  

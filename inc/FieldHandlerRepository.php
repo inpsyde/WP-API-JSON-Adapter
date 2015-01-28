@@ -33,4 +33,12 @@ class FieldHandlerRepository {
 			? $this->handlers[ $field ]
 			: array();
 	}
+
+	/**
+	 * @return array
+	 */
+	public function get_fields_to_handle() {
+
+		return array_keys( $this->handlers );
+	}
 }
