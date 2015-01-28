@@ -3,23 +3,23 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d27b1039b3e83f3bd67a106589b287d4",
+    "hash": "0a08ed52dd54d4e61bb351a1d787145b",
     "packages": [
 
     ],
     "packages-dev": [
         {
             "name": "10up/wp_mock",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/10up/wp_mock.git",
-                "reference": "3529a7bcc79d196b2850d15b92b94153b0b871a4"
+                "reference": "19b3064721912fec9ad3dabaa42b5bf0fe9a0dcf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/10up/wp_mock/zipball/3529a7bcc79d196b2850d15b92b94153b0b871a4",
-                "reference": "3529a7bcc79d196b2850d15b92b94153b0b871a4",
+                "url": "https://api.github.com/repos/10up/wp_mock/zipball/19b3064721912fec9ad3dabaa42b5bf0fe9a0dcf",
+                "reference": "19b3064721912fec9ad3dabaa42b5bf0fe9a0dcf",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 "GPL-2.0+"
             ],
             "description": "A mocking library to take the pain out of unit testing for WordPress",
-            "time": "2014-12-09 18:30:15"
+            "time": "2014-12-16 17:37:41"
         },
         {
             "name": "antecedent/patchwork",
