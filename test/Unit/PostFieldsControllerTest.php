@@ -7,7 +7,7 @@ use WPAPIAdapter\Core;
 use WPAPIAdapter\Test\TestCase;
 use WP_Mock;
 
-class PostFieldControllerTest extends TestCase\MockCollectionTestCase {
+class PostFieldsControllerTest extends TestCase\MockCollectionTestCase {
 
 	/**
 	 * runs before each test
@@ -65,7 +65,7 @@ class PostFieldControllerTest extends TestCase\MockCollectionTestCase {
 		//WP_Mock::expectAction( 'wpapiadapter_register_post_change_field_handler', $edit_field_repo, 'foo' );
 		//WP_Mock::expectAction( 'wpapiadapter_register_post_add_field_handler', $add_field_repo, 'bar' );
 
-		$testee = new Core\PostFieldController( $edit_field_repo, $add_field_repo );
+		$testee = new Core\PostFieldsController( $edit_field_repo, $add_field_repo );
 
 		$testee->dispatch( $json_response_mock );
 	}

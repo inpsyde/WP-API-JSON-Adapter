@@ -5,7 +5,7 @@ namespace WPAPIAdapter\Core;
 use WPAPIAdapter;
 use WPAPIAdapter\Iterator;
 
-class PostFieldController implements FieldControllerInterface {
+class PostFieldsController implements FieldControllerInterface {
 
 	/**
 	 * repository for handlers to change fields
