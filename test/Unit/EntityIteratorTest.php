@@ -160,6 +160,7 @@ class EntityIteratorTest extends TestCase\MockCollectionTestCase {
 					break;
 			}
 		}
+
 		// test the renamed key
 		$this->assertObjectHasAttribute(
 			'author_ID',
@@ -171,6 +172,163 @@ class EntityIteratorTest extends TestCase\MockCollectionTestCase {
 		);
 	}
 
+	/**
+	 * does multiple field handlers acts like expect?
+	 */
+	public function test_multiple_handlers_for_one_field() {
+
+		$entity = $this->get_test_entiy();
+		$entity_array = get_object_vars( $entity );
+		$keys = array_keys( $entity_array );
+
+		// we want to rename author to author_ID
+		$update_status_mock = $this->get_rename_field_handler_mock();
+		$update_status_mock->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'status' );
+		$update_status_mock->expects( $this->any() )
+			->method( 'get_value' )
+			->willReturn(
+				array( 'privious_status' => 'publish', 'new_status' => 'private' )
+		);
+
+		$update_status_mock_2 = $this->get_rename_field_handler_mock();
+		$update_status_mock_2->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'status' );
+		$update_status_mock_2->expects( $this->any() )
+			->method( 'get_value' )
+			->willReturn( 'publish' );
+
+		$update_status_mock_3 = $this->get_rename_field_handler_mock();
+		$update_status_mock_3->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'status' );
+		$update_status_mock_3->expects( $this->any() )
+			->method( 'get_value' )
+			->willReturn( NULL );
+
+
+		$field_handlers = array(
+			'status' => array(
+				$update_status_mock,
+				$update_status_mock_2,
+				$update_status_mock_3,
+			)
+		);
+		$repo_mock = $this->get_field_handler_repository_mock( $field_handlers );
+
+		$testee = new WPAPIAdapter\Iterator\EntityIterator( $entity, $repo_mock );
+
+		// the iteration
+		while( $testee->valid() ) {
+			$testee->process_field();
+			$testee->next();
+		};
+
+		// check existence of any key except 'status' and 'author'
+		foreach ( $keys as $key ) {
+			$this->assertObjectHasAttribute(
+				$key,
+				$entity
+			);
+			switch ( $key ) {
+				case 'status' :
+					$this->assertNull(
+						$entity->status
+					);
+					break;
+				default :
+					// check data consistency
+					$this->assertEquals(
+						$entity_array[ $key ],
+						$entity->{ $key }
+					);
+					break;
+			}
+		}
+	}
+
+	/**
+	 * test whether the iterator also invokes dynamically changed (new) keys
+	 */
+	public function test_iteration_of_dynamic_keys() {
+		$entity = $this->get_test_entiy();
+		$entity_array = get_object_vars( $entity );
+		$keys = array_keys( $entity_array );
+
+
+
+		// rename the author field to author_ID
+		$rename_author_mock = $this->get_rename_field_handler_mock();
+		$rename_author_mock->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'author_ID' );
+		$rename_author_mock->expects( $this->any() )
+			->method( 'get_value' )
+			->willReturn( $entity_array[ 'author' ] );
+
+		// restructure the new author_ID field
+		// rename the author field to author_ID
+		$restructure_author_mock = $this->get_rename_field_handler_mock();
+		$restructure_author_mock->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'author_ID' );
+		// be sure, the first handler did not cause the change of the structure
+		$restructure_author_mock->expects( $this->any() )
+			->method( 'handle' )
+			->with( $entity_array[ 'author' ]  );
+		$restructure_author_mock->expects( $this->any()  )
+			->method( 'get_value' )
+			->willReturn( 12 );
+
+		$field_handlers = array(
+			'author' => array( $rename_author_mock ),
+			'author_ID' => array( $restructure_author_mock )
+		);
+		$repo_mock = $this->get_field_handler_repository_mock( $field_handlers );
+
+		$testee = new WPAPIAdapter\Iterator\EntityIterator( $entity, $repo_mock );
+
+		// the iteration
+		while( $testee->valid() ) {
+			$testee->process_field();
+			$testee->next();
+		};
+
+		// check existence of any key except 'status' and 'author'
+		foreach ( $keys as $key ) {
+			switch ( $key ) {
+				case 'author' :
+					$this->assertObjectNotHasAttribute(
+						$key,
+						$entity
+					);
+					break;
+				default :
+					$this->assertObjectHasAttribute(
+						$key,
+						$entity
+					);
+					// check data consistency
+					$this->assertEquals(
+						$entity_array[ $key ],
+						$entity->{ $key }
+					);
+					break;
+			}
+		}
+
+		$this->assertObjectHasAttribute(
+			'author_ID',
+			$entity
+		);
+
+		$this->assertSame(
+			12,
+			$entity->author_ID
+		);
+	}
 	/**
 	 * @return object
 	 */
