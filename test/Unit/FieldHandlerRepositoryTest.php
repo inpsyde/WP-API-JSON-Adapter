@@ -6,6 +6,10 @@ use WPAPIAdapter;
 
 class FieldHandlerRepositoryTest extends \PHPUnit_Framework_TestCase {
 
+	/**
+	 * @see FieldHandlerRepository::add_handler()
+	 * @see FieldHandlerRepository::get_handlers()
+	 */
 	public function test_repository() {
 
 		$rename_handler_mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
@@ -40,6 +44,9 @@ class FieldHandlerRepositoryTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/**
+	 * @see FieldHandlerRepository::get_fields_to_handle()
+	 */
 	public function test_get_fields_to_handle() {
 
 		$rename_handler_mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
