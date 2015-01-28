@@ -13,7 +13,7 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @return WPAPIAdapter\Field\RenameFieldHandler (Mock)
 	 */
-	public function get_rename_field_handler_mock( \stdClass $entity, $name = NULL, $value = NULL ) {
+	public function get_rename_field_handler_mock( \stdClass $entity = NULL, $name = NULL, $value = NULL ) {
 
 		$mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
 			->disableOriginalConstructor()
@@ -56,6 +56,31 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 							return $handlers;
 
 						return array();
+					}
+				);
+		}
+
+		return $mock;
+	}
+
+	/**
+	 * @param array $field_handlers ( string $field_name => array $handlers )
+	 * @return WPAPIAdapter\FieldHandlerRepository (Mock)
+	 */
+	public function get_field_repository_mock( array $field_handlers = array() ) {
+
+		$mock = $this->getMockBuilder( '\WPAPIAdapter\FieldHandlerRepository' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		if ( ! empty( $field_handlers ) ) {
+			$mock->expects( $this->any() )
+				->method( 'get_handlers' )
+				->willReturnCallback(
+					function( $name ) use ( $field_handlers ) {
+						return isset( $field_handlers[ $name ] )
+							? $field_handlers[ $name ]
+							: NULL;
 					}
 				);
 		}
