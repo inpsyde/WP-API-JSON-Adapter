@@ -91,7 +91,7 @@ class EntityIterator implements \Iterator, FieldsProcessorInterface {
 	 */
 	public function next() {
 
-		return $this->iterator->next();
+		$this->iterator->next();
 	}
 
 	/**
@@ -128,6 +128,6 @@ class EntityIterator implements \Iterator, FieldsProcessorInterface {
 	 */
 	public function rewind() {
 
-		return $this->iterator->rewind();
+		$this->iterator->rewind();
 	}
 }
