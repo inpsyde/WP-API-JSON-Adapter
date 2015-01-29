@@ -95,11 +95,71 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of \WP_JSON_Server)
 	 */
 	public function get_json_server_mock() {
 
 		$mock = $this->getMockBuilder( '\WP_JSON_Server' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		return $mock;
+	}
+
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of \WP_JSON_Response)
+	 */
+	public function get_json_response_mock() {
+
+		$mock = $this->getMockBuilder( '\WP_JSON_Response' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		return $mock;
+	}
+
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of \WPAPIAdapter\Core\PostFieldsController)
+	 */
+	public function get_post_fields_controller_mock() {
+
+		$mock = $this->getMockBuilder( '\WPAPIAdapter\Core\PostFieldsController' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		return $mock;
+	}
+
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of \WPAPIAdapter\Builder\EndpointParserBuilder)
+	 */
+	public function get_endpoint_parser_builder_mock() {
+
+		$mock = $this->getMockBuilder( '\WPAPIAdapter\Builder\EndpointParserBuilder' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		return $mock;
+	}
+
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of \WPAPIAdapter\Route\EndpointParser)
+	 */
+	public function get_endpoint_parser_mock() {
+
+		$mock = $this->getMockBuilder( '\WPAPIAdapter\Route\EndpointParser' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		return $mock;
+	}
+
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of \WP_Error)
+	 */
+	public function get_wp_error_mock() {
+
+		$mock = $this->getMockBuilder( '\WP_Error' )
 			->disableOriginalConstructor()
 			->getMock();
 
