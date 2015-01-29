@@ -1,13 +1,12 @@
 <?php # -*- coding: utf-8 -*-
 
 namespace WPAPIAdapter;
-
 use Requisite;
 
 /**
  * inits the autoloader
  *
- * @param string $dir (The path to the lib/ directory)
+ * @param string $dir (The path of the lib/ directory)
  * @return FALSE | Requisite\SPLAutoLoader
  */
 function init_requisite( $dir ) {
