@@ -5,7 +5,7 @@ use WPAPIAdapter;
 use Requisite;
 
 require_once dirname( __DIR__ ) . '/inc/init-requisite.php';
-require_once dirname( __DIR__ ) . '/inc/register-autoloding.php';
+require_once dirname( __DIR__ ) . '/inc/register-autoloading.php';
 require_once dirname( __DIR__ ) . '/vendor/autoload.php';
 
 // there's a bug in WP_Mock's expectAction()
