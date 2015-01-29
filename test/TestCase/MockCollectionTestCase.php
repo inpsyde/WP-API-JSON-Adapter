@@ -11,7 +11,7 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 	 * @param string      $name
 	 * @param mixed      $value
 	 *
-	 * @return WPAPIAdapter\Field\RenameFieldHandler (Mock)
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of WPAPIAdapter\Field\RenameFieldHandler)
 	 */
 	public function get_rename_field_handler_mock( \stdClass $entity = NULL, $name = NULL, $value = NULL ) {
 
@@ -39,7 +39,7 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @param array $field_handlers (str $field_name => array $handers)
 	 *
-	 * @return WPAPIAdapter\FieldHandlerRepository (Mock)
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of WPAPIAdapter\FieldHandlerRepository)
 	 */
 	public function get_field_handler_repository_mock( array $field_handlers = array() ) {
 
@@ -90,6 +90,18 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 				->method( 'get_fields_to_handle' )
 				->willReturn( array() );
 		}
+
+		return $mock;
+	}
+
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 */
+	public function get_json_server_mock() {
+
+		$mock = $this->getMockBuilder( '\WP_JSON_Server' )
+			->disableOriginalConstructor()
+			->getMock();
 
 		return $mock;
 	}
