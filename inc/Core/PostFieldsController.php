@@ -43,6 +43,7 @@ class PostFieldsController implements FieldControllerInterface {
 		 * @param WPAPIAdapter\FieldHandlerRepository
 		 */
 		do_action( 'wpapiadapter_register_post_change_field_handler', $this->change_repository );
+
 		/**
 		 * @param WPAPIAdapter\FieldHandlerRepository
 		 */
