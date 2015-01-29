@@ -7,4 +7,7 @@
  *
  * But to use type-hinting also in Unit-Tests we need this class in the SUT.
  */
-class WP_JSON_Server {}
+class WP_JSON_Server {
+
+	public function dispatch() {}
+}

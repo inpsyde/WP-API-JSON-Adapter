@@ -1,7 +1,7 @@
 <?php # -*- coding: utf-8 -*-
 
 
-class WP_JSON_Response {
+class WP_JSON_Response implements WP_JSON_ResponseInterface{
 
 	/**
 	 * @return array
