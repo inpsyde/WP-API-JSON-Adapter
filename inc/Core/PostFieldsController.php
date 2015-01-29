@@ -22,6 +22,11 @@ class PostFieldsController implements FieldControllerInterface {
 	private $add_repository;
 
 	/**
+	 * @type bool
+	 */
+	private $is_single_entity;
+
+	/**
 	 * @param WPAPIAdapter\FieldHandlerRepository $change_repository
 	 * @param WPAPIAdapter\FieldHandlerRepository $add_repository
 	 */
@@ -36,6 +41,7 @@ class PostFieldsController implements FieldControllerInterface {
 
 	/**
 	 * @param \WP_JSON_Response $response
+	 * @return void
 	 */
 	public function dispatch( \WP_JSON_Response $response ) {
 
@@ -50,7 +56,11 @@ class PostFieldsController implements FieldControllerInterface {
 		do_action( 'wpapiadapter_register_post_add_field_handler',    $this->add_repository );
 
 		// apply change handlers
-		$data_iterator = new \ArrayIterator( $response->get_data() );
+		if ( $this->is_single_entity )
+			$data_iterator = new \ArrayIterator( array( $response->get_data() ) );
+		else
+			$data_iterator = new \ArrayIterator( $response->get_data() );
+
 		while ( $data_iterator->valid() ) {
 			// ignore non-object and non-arrays
 			if ( is_scalar( $data_iterator->current() ) )
@@ -67,7 +77,11 @@ class PostFieldsController implements FieldControllerInterface {
 			$data_iterator->next();
 		}
 
-		$response->set_data( $data_iterator->getArrayCopy() );
+		// Todo: that double handling of $this->is_single_entity is not really elegant
+		if ( $this->is_single_entity )
+			$response->set_data( current( $data_iterator->getArrayCopy() ) );
+		else
+			$response->set_data( $data_iterator->getArrayCopy() );
 	}
 
 	/**
@@ -83,6 +97,19 @@ class PostFieldsController implements FieldControllerInterface {
 			$entity_iterator->next();
 		};
 		$this->attach_new_fields( $entity, $entity_iterator );
+	}
+
+	/**
+	 * Tells the controller to handle the data from WP_JSON_Response
+	 * as single entity instead of an array of entities
+	 *
+	 * @param bool $is_single
+	 *
+	 * @return mixed
+	 */
+	public function set_single_entity( $is_single ) {
+
+		$this->is_single_entity = (bool) $is_single;
 	}
 
 	/**
