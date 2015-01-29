@@ -73,10 +73,21 @@ class PostFieldsControllerTest extends TestCase\MockCollectionTestCase {
 		$edit_field_repo = $this->get_field_repository_mock( $change_field_handlers );
 		$add_field_repo = $this->get_field_repository_mock( $add_field_handlers );
 
-		// wp mock
-		// it's fu'in buggy
-		//WP_Mock::expectAction( 'wpapiadapter_register_post_change_field_handler', $edit_field_repo, 'foo' );
-		//WP_Mock::expectAction( 'wpapiadapter_register_post_add_field_handler', $add_field_repo, 'bar' );
+		/**
+		 * wp mock
+		 * there seems to be a bug…
+		 *
+		 * PHP Fatal error:  Call to a member function react() on a non-object in vendor/10up/wp_mock/WP_Mock/Action.php on line 37
+		 *
+		 * Tested with phpunit 4.3.* and 4.4.5
+		 *
+		 * It seems that the error occurs when the number of arguments passed to the mock
+		 * does not match number of arguments passed to the hook itself, so be careful
+		 *
+		 * Todo: extract the problem and write an issue
+		 */
+		WP_Mock::expectAction( 'wpapiadapter_register_post_change_field_handler', $edit_field_repo );
+		WP_Mock::expectAction( 'wpapiadapter_register_post_add_field_handler', $add_field_repo );
 
 		$testee = new Core\PostFieldsController( $edit_field_repo, $add_field_repo );
 
