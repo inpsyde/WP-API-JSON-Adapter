@@ -4,7 +4,7 @@
 namespace WPAPIAdapter\Core;
 
 
-interface FieldControllerInterface {
+interface FieldsControllerInterface {
 
 	/**
 	 * @param \WP_JSON_Response $response

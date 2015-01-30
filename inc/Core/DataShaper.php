@@ -9,7 +9,7 @@ use WPAPIAdapter\Builder;
 class DataShaper {
 
 	/**
-	 * @type array ( string $entity => Core\FieldControllerInterface )
+	 * @type array ( string $entity => Core\FieldsControllerInterface )
 	 */
 	private $fields_controller;
 
@@ -50,9 +50,9 @@ class DataShaper {
 
 	/**
 	 * @param string $entity
-	 * @param Core\FieldControllerInterface $controller
+	 * @param Core\FieldsControllerInterface $controller
 	 */
-	public function add_entity_controller( $entity, Core\FieldControllerInterface $controller ) {
+	public function add_entity_controller( $entity, Core\FieldsControllerInterface $controller ) {
 
 		$this->fields_controller[ $entity ] = $controller;
 	}
