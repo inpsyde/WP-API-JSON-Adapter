@@ -8,7 +8,7 @@ interface FieldsControllerInterface {
 
 	/**
 	 * @param \WP_JSON_Response $response
-	 * @return mixed
+	 * @return void
 	 */
 	public function dispatch( \WP_JSON_Response $response );
 
@@ -17,7 +17,7 @@ interface FieldsControllerInterface {
 	 * as single entity instead of an array of entities
 	 *
 	 * @param bool $is_single
-	 * @return mixed
+	 * @return void
 	 */
 	public function set_single_entity( $is_single );
 } 

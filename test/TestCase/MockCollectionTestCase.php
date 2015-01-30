@@ -119,7 +119,7 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of \WPAPIAdapter\Core\PostFieldsController)
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of \WPAPIAdapter\Core\EntityFieldsController)
 	 */
 	public function get_post_fields_controller_mock() {
 
@@ -165,4 +165,16 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 
 		return $mock;
 	}
-} 
+
+	/**
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of \WPAPIAdapter\Core\EntityFieldsController)
+	 */
+	public function get_entity_fields_controller_mock() {
+
+		$mock = $this->getMockBuilder( '\WPAPIAdapter\Core\EntityFieldsController' )
+			->disableOriginalConstructor()
+			->getMock();
+
+		return $mock;
+	}
+}

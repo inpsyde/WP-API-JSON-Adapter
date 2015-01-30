@@ -10,8 +10,12 @@ class FieldsControllerBuilder {
 	public function build_post_fields_controller() {
 
 		$repos = $this->get_new_repositorys();
-
+		$entity_controller = new Core\EntityFieldsController(
+			$repos[ 'change' ],
+			$repos[ 'add' ]
+		);
 		$controller = new Core\PostFieldsController(
+			$entity_controller,
 			$repos[ 'change' ],
 			$repos[ 'add' ]
 		);
