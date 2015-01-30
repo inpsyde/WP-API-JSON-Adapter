@@ -3,7 +3,7 @@
 
 namespace WPAPIAdapter\Iterator;
 use WPAPIAdapter\Field;
-use WPAPIAdapter\FieldHandlerRepository;
+use WPAPIAdapter\Core\FieldHandlerRepository;
 
 /**
  * The FieldsOperator iterates over

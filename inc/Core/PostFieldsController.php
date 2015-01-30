@@ -10,14 +10,14 @@ class PostFieldsController implements FieldsControllerInterface {
 	/**
 	 * repository for handlers to change fields
 	 *
-	 * @type WPAPIAdapter\FieldHandlerRepository
+	 * @type \WPAPIAdapter\Core\FieldHandlerRepository
 	 */
 	private $change_repository;
 
 	/**
 	 * repository for handlers to add fields
 	 *
-	 * @type WPAPIAdapter\FieldHandlerRepository
+	 * @type \WPAPIAdapter\Core\FieldHandlerRepository
 	 */
 	private $add_repository;
 
@@ -27,12 +27,12 @@ class PostFieldsController implements FieldsControllerInterface {
 	private $is_single_entity;
 
 	/**
-	 * @param WPAPIAdapter\FieldHandlerRepository $change_repository
-	 * @param WPAPIAdapter\FieldHandlerRepository $add_repository
+	 * @param \WPAPIAdapter\Core\FieldHandlerRepository $change_repository
+	 * @param \WPAPIAdapter\Core\FieldHandlerRepository $add_repository
 	 */
 	function __construct(
-		WPAPIAdapter\FieldHandlerRepository $change_repository,
-		WPAPIAdapter\FieldHandlerRepository $add_repository
+		WPAPIAdapter\Core\FieldHandlerRepository $change_repository,
+		WPAPIAdapter\Core\FieldHandlerRepository $add_repository
 	) {
 
 		$this->change_repository = $change_repository;
@@ -46,12 +46,12 @@ class PostFieldsController implements FieldsControllerInterface {
 	public function dispatch( \WP_JSON_Response $response ) {
 
 		/**
-		 * @param WPAPIAdapter\FieldHandlerRepository
+		 * @param WPAPIAdapter\Core\FieldHandlerRepository
 		 */
 		do_action( 'wpapiadapter_register_post_change_field_handler', $this->change_repository );
 
 		/**
-		 * @param WPAPIAdapter\FieldHandlerRepository
+		 * @param WPAPIAdapter\Core\FieldHandlerRepository
 		 */
 		do_action( 'wpapiadapter_register_post_add_field_handler',    $this->add_repository );
 

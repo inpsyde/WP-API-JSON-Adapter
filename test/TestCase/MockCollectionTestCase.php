@@ -39,11 +39,11 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @param array $field_handlers (str $field_name => array $handers)
 	 *
-	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of WPAPIAdapter\FieldHandlerRepository)
+	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of WPAPIAdapter\Core\FieldHandlerRepository)
 	 */
 	public function get_field_handler_repository_mock( array $field_handlers = array() ) {
 
-		$mock = $this->getMockBuilder( '\WPAPIAdapter\FieldHandlerRepository' )
+		$mock = $this->getMockBuilder( '\WPAPIAdapter\Core\FieldHandlerRepository' )
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -64,11 +64,11 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @param array $field_handlers ( string $field_name => array $handlers )
-	 * @return WPAPIAdapter\FieldHandlerRepository (Mock)
+	 * @return \WPAPIAdapter\Core\FieldHandlerRepository (Mock)
 	 */
 	public function get_field_repository_mock( array $field_handlers = array() ) {
 
-		$mock = $this->getMockBuilder( '\WPAPIAdapter\FieldHandlerRepository' )
+		$mock = $this->getMockBuilder( '\WPAPIAdapter\Core\FieldHandlerRepository' )
 			->disableOriginalConstructor()
 			->getMock();
 

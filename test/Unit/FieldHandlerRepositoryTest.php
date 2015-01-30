@@ -20,7 +20,7 @@ class FieldHandlerRepositoryTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$testee = new WPAPIAdapter\FieldHandlerRepository;
+		$testee = new WPAPIAdapter\Core\FieldHandlerRepository;
 		$testee->add_handler( 'one', $rename_handler_mock );
 		$testee->add_handler( 'two', $unset_handler_mock );
 
@@ -53,7 +53,7 @@ class FieldHandlerRepositoryTest extends \PHPUnit_Framework_TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$testee = new WPAPIAdapter\FieldHandlerRepository;
+		$testee = new WPAPIAdapter\Core\FieldHandlerRepository;
 		$testee->add_handler( 'ID', $rename_handler_mock );
 		$testee->add_handler( 'title', $rename_handler_mock );
 		$testee->add_handler( 'content', $rename_handler_mock );

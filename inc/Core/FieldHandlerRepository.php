@@ -1,7 +1,7 @@
 <?php # -*- coding: utf-8 -*-
 
 
-namespace WPAPIAdapter;
+namespace WPAPIAdapter\Core;
 use WPAPIAdapter\Field;
 
 class FieldHandlerRepository {

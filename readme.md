@@ -6,7 +6,7 @@ Provides interfaces to change the structure of the REST API data.
 To change the structure of the post objects you have to register a handler for each field you want to change, add or
 remove. This handler must be an implementation of the `WPAPIAdapter\Field\FieldHandlerInterface`.
 
-All field handlers are managed by instances of `WPAPIAdapter\FieldHandlerRepository`, handlers to change/remove fields
+All field handlers are managed by instances of `WPAPIAdapter\Core\FieldHandlerRepository`, handlers to change/remove fields
 are handled separately to those which add new fields.
 
 To access the repositories there are two actions provided:
@@ -24,7 +24,7 @@ Rename the `title` field to `custom_title`:
 ```php
 add_action(
 	'wpapiadapter_register_post_change_field_handler',
-	function( WPAPIAdapter\FieldHandlerRepository $repository ) {
+	function( WPAPIAdapter\Core\FieldHandlerRepository $repository ) {
 		$repository->add_handler( 'title', new WPAPIAdapter\Field\RenameFieldHandler( 'custom_title' );
 	}
 );
@@ -35,7 +35,7 @@ Unset the field `status`:
 ```php
 add_action(
 	'wpapiadapter_register_post_change_field_handler',
-	function( WPAPIAdapter\FieldHandlerRepository $repository ) {
+	function( WPAPIAdapter\Core\FieldHandlerRepository $repository ) {
 		$repository->add_handler( 'status', new WPAPIAdapter\Field\UnsetFieldHander );
 	}
 );
@@ -62,7 +62,7 @@ Code:
 ```php
 add_action(
 	'wpapiadapter_register_post_change_field_handler',
-	function( WPAPIAdapter\FieldHandlerRepository $repository ) {
+	function( WPAPIAdapter\Core\FieldHandlerRepository $repository ) {
 		$repository->add_handler( 'author', new MyCustomAuthorField );
 	}
 );

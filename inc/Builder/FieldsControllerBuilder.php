@@ -3,7 +3,7 @@
 
 namespace WPAPIAdapter\Builder;
 use WPAPIAdapter\Core;
-use WPAPIAdapter\FieldHandlerRepository;
+use WPAPIAdapter\Core\FieldHandlerRepository;
 
 class FieldsControllerBuilder {
 
