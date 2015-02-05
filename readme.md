@@ -75,6 +75,11 @@ class MyCustomAuthorField implements WPAPIAdapter\Field\FieldHandlerInterface {
 	private $value;
 
 	/**
+	 * @type \stdClass
+	 */
+	private $original_entity;
+
+	/**
      * @return string
      */
     public function get_name() {
@@ -112,7 +117,17 @@ class MyCustomAuthorField implements WPAPIAdapter\Field\FieldHandlerInterface {
             $this->value = $field[ 'ID' ];
         else
             $this->value = $field; //pass the original through if there is an unexpected structure
+
+        //if you need access to the post e.g. use $this->original_entity->ID 
     }
 
+    /**
+     * @param \stdClass $original_entity
+     * @return void
+     */
+    public function set_original_entity( \stdClass $original_entity ) {
+
+        $this->original_entity = $original_entity;
+    }
 }
 ```
