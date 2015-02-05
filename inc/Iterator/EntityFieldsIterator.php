@@ -18,6 +18,11 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 	private $entity;
 
 	/**
+	 * @type \stdClass
+	 */
+	private $original_entity;
+
+	/**
 	 * @type \ArrayIterator
 	 */
 	private $iterator;
@@ -28,12 +33,14 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 	private $handler_repo;
 
 	/**
-	 * @param \stdClass              $entity
+	 * @param \stdClass $entity
 	 * @param Core\FieldHandlerRepository $handler_repo
 	 */
 	function __construct( \stdClass $entity, Core\FieldHandlerRepository $handler_repo ) {
 
 		$this->entity = $entity;
+		$this->original_entity = clone $entity ;
+
 		$this->iterator = new \ArrayIterator(
 			new \ArrayObject( $this->entity )
 		);
@@ -53,6 +60,8 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 
 		/* @type Field\FieldHandlerInterface $handler */
 		foreach( $handlers as $handler ) {
+			// cloning to avoid internal changes affect handlers among each other
+			$handler->set_original_entity( clone $this->original_entity );
 			$handler->handle( $this->current() );
 
 			// delete the key if the name is empty

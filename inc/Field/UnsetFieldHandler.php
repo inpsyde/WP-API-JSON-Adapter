@@ -35,4 +35,11 @@ class UnsetFieldHandler implements FieldHandlerInterface {
 	 * @return void
 	 */
 	public function handle( $field ) {}
+
+	/**
+	 * @param \stdClass $original_entity
+	 *
+	 * @return void
+	 */
+	public function set_original_entity( \stdClass $original_entity ) {}
 }

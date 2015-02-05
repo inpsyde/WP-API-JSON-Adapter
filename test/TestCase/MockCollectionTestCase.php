@@ -21,6 +21,9 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 		$mock->expects( $this->any() )
 			->method( 'handle' )
 			->willReturn( NULL );
+		$mock->expects( $this->any() )
+			->method( 'set_original_entity' )
+			->with( $this->isInstanceOf( '\stdClass') );
 
 		if ( $name ) {
 			$mock->expects( $this->any() )
