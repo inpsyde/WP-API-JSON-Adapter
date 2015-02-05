@@ -4,7 +4,7 @@
 namespace WPAPIAdapter\Core;
 use WPAPIAdapter\Field;
 
-interface FieldsProcessorInterface {
+interface FieldProcessorInterface {
 
 	/**
 	 * @return bool (Processed or not)

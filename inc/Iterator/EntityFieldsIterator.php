@@ -10,7 +10,7 @@ use WPAPIAdapter\Field;
  *
  * @package WPAPIAdapter\Iterator
  */
-class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldsProcessorInterface {
+class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcessorInterface {
 
 	/**
 	 * @type \stdClass
