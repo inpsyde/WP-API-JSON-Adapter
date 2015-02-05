@@ -43,6 +43,7 @@ class DataShaper {
 		$response = $this->sanitize_response( $response );
 
 		$this->fields_controller[ $entity ]->set_single_entity( $parser->is_single() );
+		$this->fields_controller[ $entity ]->set_json_server( $server );
 		$this->fields_controller[ $entity ]->dispatch( $response );
 
 		return $response;

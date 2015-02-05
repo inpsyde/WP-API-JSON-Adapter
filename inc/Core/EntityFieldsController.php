@@ -146,7 +146,6 @@ class EntityFieldsController implements FieldsControllerInterface {
 		foreach ( $this->add_repository->get_fields_to_handle() as $field ) {
 			foreach ( $this->add_repository->get_handlers( $field ) as $handler ) {
 				/* @type Field\FieldHandlerInterface $handler */
-				$handler->set_server( $this->server );
 				$handler->set_original_entity( clone $original_entity );
 				if ( $entity_iterator->offsetExists( $handler->get_name() ) )
 					continue; // Todo: thinking about error handling. Not sure it's worth an Exeption.
