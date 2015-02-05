@@ -4,6 +4,7 @@
 namespace WPAPIAdapter\Core;
 use WPAPIAdapter;
 use WPAPIAdapter\Iterator;
+use WPAPIAdapter\Field;
 
 class EntityFieldsController implements FieldsControllerInterface {
 
@@ -27,6 +28,11 @@ class EntityFieldsController implements FieldsControllerInterface {
 	private $is_single_entity;
 
 	/**
+	 * @type \WP_JSON_Server
+	 */
+	private $server;
+
+	/**
 	 * @param \WPAPIAdapter\Core\FieldHandlerRepository $change_repository
 	 * @param \WPAPIAdapter\Core\FieldHandlerRepository $add_repository
 	 */
@@ -44,6 +50,7 @@ class EntityFieldsController implements FieldsControllerInterface {
 	 * @return void
 	 */
 	public function dispatch( \WP_JSON_Response $response ) {
+
 
 		// apply change handlers
 		if ( $this->is_single_entity )
@@ -103,13 +110,44 @@ class EntityFieldsController implements FieldsControllerInterface {
 	}
 
 	/**
+	 * deploy the JSON-Server to each handler.
+	 * (smells a bit like the courier anti-pattern)
+	 *
+	 * @param \WP_JSON_Server $server
+	 * @return void
+	 */
+	private function deploy_server_to_handlers( \WP_JSON_Server $server ) {
+
+		/* @type Field\FieldHandlerInterface $handler */
+		foreach ( $this->add_repository->get_all_handlers_flat() as $handler )
+			$handler->set_server( $server );
+
+		foreach ( $this->change_repository->get_all_handlers_flat() as $handler )
+				$handler->set_server( $server );
+	}
+
+	/**
+	 * @param \WP_JSON_Server $server
+	 * @return mixed
+	 */
+	public function set_json_server( \WP_JSON_Server $server ) {
+
+		$this->server = $server;
+		$this->deploy_server_to_handlers( $server );
+	}
+
+	/**
 	 * @param \stdClass    $entity
 	 * @param \ArrayAccess $entity_iterator
 	 */
 	private function attach_new_fields( \stdClass $entity, \ArrayAccess $entity_iterator ) {
 
+		$original_entity = clone $entity;
 		foreach ( $this->add_repository->get_fields_to_handle() as $field ) {
 			foreach ( $this->add_repository->get_handlers( $field ) as $handler ) {
+				/* @type Field\FieldHandlerInterface $handler */
+				$handler->set_server( $this->server );
+				$handler->set_original_entity( clone $original_entity );
 				if ( $entity_iterator->offsetExists( $handler->get_name() ) )
 					continue; // Todo: thinking about error handling. Not sure it's worth an Exeption.
 

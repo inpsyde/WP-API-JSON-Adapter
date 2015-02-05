@@ -8,12 +8,13 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @param \stdClass $entity
-	 * @param string      $name
-	 * @param mixed      $value
+	 * @param string $name
+	 * @param mixed $value
+	 * @param bool $expects_server
 	 *
 	 * @return \PHPUnit_Framework_MockObject_MockObject (Mock of WPAPIAdapter\Field\RenameFieldHandler)
 	 */
-	public function get_rename_field_handler_mock( \stdClass $entity = NULL, $name = NULL, $value = NULL ) {
+	public function get_rename_field_handler_mock( \stdClass $entity = NULL, $name = NULL, $value = NULL, $expects_server = FALSE) {
 
 		$mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
 			->disableOriginalConstructor()
@@ -25,9 +26,11 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 			->method( 'set_original_entity' )
 			->with( $this->isInstanceOf( '\stdClass') );
 
-		$mock->expects( $this->atLeast( 1 ) )
-			->method( 'set_server' )
-			->with( $this->isInstanceOf( '\WP_JSON_Server' ) );
+		if ( $expects_server ) {
+			$mock->expects( $this->atLeast( 1 ) )
+				->method( 'set_server' )
+				->with( $this->isInstanceOf( '\WP_JSON_Server' ) );
+		}
 
 		if ( $name ) {
 			$mock->expects( $this->atLeast( 1 ) )
@@ -92,6 +95,17 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 			$mock->expects( $this->any() )
 				->method( 'get_fields_to_handle' )
 				->willReturn( array_keys( $field_handlers ) );
+			$mock->expects( $this->any() )
+				->method( 'get_all_handlers_flat' )
+				->willReturnCallback(
+					function() use ( $field_handlers ) {
+						$all_handlers = array();
+						foreach ( $field_handlers as $handlers )
+							$all_handlers = array_merge( $all_handlers, $handlers );
+
+						return $all_handlers;
+					}
+			);
 		} else {
 			$mock->expects( $this->any() )
 				->method( 'get_fields_to_handle' )

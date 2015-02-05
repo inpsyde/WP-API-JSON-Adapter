@@ -20,4 +20,10 @@ interface FieldsControllerInterface {
 	 * @return void
 	 */
 	public function set_single_entity( $is_single );
+
+	/**
+	 * @param \WP_JSON_Server $server
+	 * @return mixed
+	 */
+	public function set_json_server( \WP_JSON_Server $server );
 } 

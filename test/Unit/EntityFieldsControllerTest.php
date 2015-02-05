@@ -35,27 +35,36 @@ class EntityFieldsControllerTest extends TestCase\MockCollectionTestCase {
 	public function test_dispatch( array $data, array $expected_data ) {
 
 		$json_response_mock = $this->get_json_response_mock();
-		$json_response_mock->expects( $this->any() )
+		$json_response_mock->expects( $this->atLeast( 1 ) )
 			->method( 'get_data' )
 			->willReturn( $data );
 		$json_response_mock->expects( $this->exactly( 1 ) )
 			->method( 'set_data' )
 			->with( $expected_data );
 
+		$json_server_mock = $this->get_json_server_mock();
+
 		// mock of a field handler to restructure the author field
-		$author_handler = $this->get_rename_field_handler_mock();
-		$author_handler->expects( $this->any() )
+		$author_handler = $this->get_rename_field_handler_mock( NULL, NULL, NULL, TRUE );// expects JSON_Server
+		$author_handler->expects( $this->atLeast( 1 ) )
 			->method( 'get_name' )
 			->willReturn( 'author_ID' );
-		$author_handler->expects( $this->any() )
+		$author_handler->expects( $this->atLeast( 1 ) )
 			->method( 'get_value' )
 			->willReturn( 1 ); //must be 1 due to the $expected_data
 
-		$new_field_handler = $this->get_rename_field_handler_mock();
-		$new_field_handler->expects( $this->any() )
+		/**
+		 * Method 'handle' won't invoked for new field handlers!
+		 */
+		$new_field_handler = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+		$new_field_handler->expects( $this->never() )
+			->method( 'handle' );
+		$new_field_handler->expects( $this->atLeast( 1 ) )
 			->method( 'get_name' )
 			->willReturn( 'custom_field' );
-		$new_field_handler->expects( $this->any() )
+		$new_field_handler->expects( $this->atLeast( 1 ) )
 			->method( 'get_value' )
 			->willReturn( "I'm new" ); //must be 1 due to the $expected_data
 
@@ -64,6 +73,7 @@ class EntityFieldsControllerTest extends TestCase\MockCollectionTestCase {
 				$author_handler
 			)
 		);
+
 		$add_field_handlers = array(
 			'custom_field' => array(
 				$new_field_handler
@@ -75,6 +85,7 @@ class EntityFieldsControllerTest extends TestCase\MockCollectionTestCase {
 
 
 		$testee = new Core\EntityFieldsController( $edit_field_repo, $add_field_repo );
+		$testee->set_json_server( $json_server_mock );
 
 		$testee->dispatch( $json_response_mock );
 	}

@@ -44,7 +44,6 @@ class PostFieldsController implements FieldsControllerInterface {
 
 	/**
 	 * @param \WP_JSON_Response $response
-	 *
 	 * @return void
 	 */
 	public function dispatch( \WP_JSON_Response $response ) {
@@ -67,7 +66,6 @@ class PostFieldsController implements FieldsControllerInterface {
 	 * as single entity instead of an array of entities
 	 *
 	 * @param bool $is_single
-	 *
 	 * @return mixed
 	 */
 	public function set_single_entity( $is_single ) {
@@ -75,4 +73,12 @@ class PostFieldsController implements FieldsControllerInterface {
 		$this->controller->set_single_entity( (bool) $is_single );
 	}
 
+	/**
+	 * @param \WP_JSON_Server $server
+	 * @return mixed
+	 */
+	public function set_json_server( \WP_JSON_Server $server ) {
+
+		$this->controller->set_json_server( $server );
+	}
 } 
