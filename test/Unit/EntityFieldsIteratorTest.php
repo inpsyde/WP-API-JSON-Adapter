@@ -5,7 +5,7 @@ namespace WPAPIAdapter\Test\Unit;
 use WPAPIAdapter;
 use WPAPIAdapter\Test\TestCase;
 
-class EntityIteratorTest extends TestCase\MockCollectionTestCase {
+class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 
 	/**
 	 * @see WPAPIAdapter\Iterator\EntityIterator::process_field()
@@ -24,7 +24,7 @@ class EntityIteratorTest extends TestCase\MockCollectionTestCase {
 		);
 		$repo_mock = $this->get_field_handler_repository_mock( $field_handlers );
 
-		$testee = new WPAPIAdapter\Iterator\EntityIterator( $entity, $repo_mock );
+		$testee = new WPAPIAdapter\Iterator\EntityFieldsIterator( $entity, $repo_mock );
 
 		while( $testee->valid() ) {
 			$testee->process_field();
@@ -69,7 +69,7 @@ class EntityIteratorTest extends TestCase\MockCollectionTestCase {
 		);
 		$repo_mock = $this->get_field_handler_repository_mock( $field_handlers );
 
-		$testee = new WPAPIAdapter\Iterator\EntityIterator( $entity, $repo_mock );
+		$testee = new WPAPIAdapter\Iterator\EntityFieldsIterator( $entity, $repo_mock );
 
 		// the iteration
 		while( $testee->valid() ) {
@@ -129,7 +129,7 @@ class EntityIteratorTest extends TestCase\MockCollectionTestCase {
 		);
 		$repo_mock = $this->get_field_handler_repository_mock( $field_handlers );
 
-		$testee = new WPAPIAdapter\Iterator\EntityIterator( $entity, $repo_mock );
+		$testee = new WPAPIAdapter\Iterator\EntityFieldsIterator( $entity, $repo_mock );
 
 		// the iteration
 		while( $testee->valid() ) {
@@ -218,7 +218,7 @@ class EntityIteratorTest extends TestCase\MockCollectionTestCase {
 		);
 		$repo_mock = $this->get_field_handler_repository_mock( $field_handlers );
 
-		$testee = new WPAPIAdapter\Iterator\EntityIterator( $entity, $repo_mock );
+		$testee = new WPAPIAdapter\Iterator\EntityFieldsIterator( $entity, $repo_mock );
 
 		// the iteration
 		while( $testee->valid() ) {
@@ -288,7 +288,7 @@ class EntityIteratorTest extends TestCase\MockCollectionTestCase {
 		);
 		$repo_mock = $this->get_field_handler_repository_mock( $field_handlers );
 
-		$testee = new WPAPIAdapter\Iterator\EntityIterator( $entity, $repo_mock );
+		$testee = new WPAPIAdapter\Iterator\EntityFieldsIterator( $entity, $repo_mock );
 
 		// the iteration
 		while( $testee->valid() ) {

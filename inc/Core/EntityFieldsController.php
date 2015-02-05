@@ -81,7 +81,7 @@ class EntityFieldsController implements FieldsControllerInterface {
 	 */
 	private function iterate_entity( \stdClass $entity ) {
 
-		$entity_iterator = new Iterator\EntityIterator( $entity, $this->change_repository );
+		$entity_iterator = new Iterator\EntityFieldsIterator( $entity, $this->change_repository );
 		while ( $entity_iterator->valid() ) {
 			$entity_iterator->process_field();
 			$entity_iterator->next();
