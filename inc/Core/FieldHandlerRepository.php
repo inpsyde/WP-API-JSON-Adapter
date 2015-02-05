@@ -41,4 +41,16 @@ class FieldHandlerRepository {
 
 		return array_keys( $this->handlers );
 	}
+
+	/**
+	 * @return array
+	 */
+	public function get_all_handlers_flat() {
+
+		$all_handlers = array();
+		foreach ( $this->handlers as $field => $handlers )
+			$all_handlers = array_merge( $all_handlers, $handlers );
+
+		return $all_handlers;
+	}
 }
