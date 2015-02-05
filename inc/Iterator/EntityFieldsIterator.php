@@ -2,15 +2,15 @@
 
 
 namespace WPAPIAdapter\Iterator;
+use WPAPIAdapter\Core;
 use WPAPIAdapter\Field;
-use WPAPIAdapter\Core\FieldHandlerRepository;
 
 /**
  * The FieldsOperator iterates over
  *
  * @package WPAPIAdapter\Iterator
  */
-class EntityFieldsIterator implements \Iterator, \ArrayAccess, FieldsProcessorInterface {
+class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldsProcessorInterface {
 
 	/**
 	 * @type \stdClass
@@ -29,9 +29,9 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, FieldsProcessorIn
 
 	/**
 	 * @param \stdClass              $entity
-	 * @param FieldHandlerRepository $handler_repo
+	 * @param Core\FieldHandlerRepository $handler_repo
 	 */
-	function __construct( \stdClass $entity, FieldHandlerRepository $handler_repo ) {
+	function __construct( \stdClass $entity, Core\FieldHandlerRepository $handler_repo ) {
 
 		$this->entity = $entity;
 		$this->iterator = new \ArrayIterator(

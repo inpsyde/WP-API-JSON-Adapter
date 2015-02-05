@@ -1,7 +1,7 @@
 <?php # -*- coding: utf-8 -*-
 
 
-namespace WPAPIAdapter\Iterator;
+namespace WPAPIAdapter\Core;
 use WPAPIAdapter\Field;
 
 interface FieldsProcessorInterface {
