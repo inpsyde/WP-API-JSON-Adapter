@@ -118,7 +118,7 @@ class MyCustomAuthorField implements WPAPIAdapter\Field\FieldHandlerInterface {
         else
             $this->value = $field; //pass the original through if there is an unexpected structure
 
-        //if you need access to the post e.g. use $this->original_entity->ID 
+        //if you need access to the post e.g. use $this->original_entity->ID
     }
 
     /**

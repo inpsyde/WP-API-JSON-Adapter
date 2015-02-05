@@ -6,7 +6,7 @@
  * Plugin URL:
  * Author: Inpsyde GmbH
  * Author URL: http://inpsyde.com
- * Version: 2015.01.25
+ * Version: 2015.02.05
  */
 
 namespace WPAPIAdapter;
