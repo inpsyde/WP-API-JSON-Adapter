@@ -18,20 +18,24 @@ class MockCollectionTestCase extends \PHPUnit_Framework_TestCase {
 		$mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
 			->disableOriginalConstructor()
 			->getMock();
-		$mock->expects( $this->any() )
+		$mock->expects( $this->atLeast( 1 ) )
 			->method( 'handle' )
 			->willReturn( NULL );
-		$mock->expects( $this->any() )
+		$mock->expects( $this->atLeast( 1 ) )
 			->method( 'set_original_entity' )
 			->with( $this->isInstanceOf( '\stdClass') );
 
+		$mock->expects( $this->atLeast( 1 ) )
+			->method( 'set_server' )
+			->with( $this->isInstanceOf( '\WP_JSON_Server' ) );
+
 		if ( $name ) {
-			$mock->expects( $this->any() )
+			$mock->expects( $this->atLeast( 1 ) )
 				->method( 'get_name' )
 				->willReturn( $name );
 		}
 		if ( $value ) {
-			$mock->expects( $this->any() )
+			$mock->expects( $this->atLeast( 1 ) )
 				->method( 'get_value' )
 				->willReturn( $value );
 		}
