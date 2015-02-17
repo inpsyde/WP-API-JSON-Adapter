@@ -7,7 +7,7 @@ namespace WPAPIAdapter\Core;
  * Class PostFieldsController
  *
  * Decorator for the EntityFieldsController to apply post specific
- * filters to the FieldHandlers.
+ * filters to the FieldHandlersRepositories.
  *
  * @package WPAPIAdapter\Core
  */

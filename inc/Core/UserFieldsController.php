@@ -4,15 +4,14 @@
 namespace WPAPIAdapter\Core;
 
 /**
- * Class PostFieldsController
+ * Class UserFieldsController
  *
  * Decorator for the EntityFieldsController to apply user specific
- * filters to the FieldHandlers.
+ * filters to the FieldHandlersRepositories.
  *
  * @package WPAPIAdapter\Core
  */
 class UserFieldsController implements FieldsControllerInterface {
-
 
 	/**
 	 * @type EntityFieldsController
