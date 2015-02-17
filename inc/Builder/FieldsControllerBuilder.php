@@ -55,6 +55,30 @@ class FieldsControllerBuilder {
 	}
 
 	/**
+	 * Builds a Core\TermFieldsController with two FieldHandlerRepository objects
+	 * inside.
+	 *
+	 * @return Core\TermFieldsController
+	 */
+	public function build_term_fields_controller() {
+
+		$repos = $this->get_new_repositories();
+		$entity_controller = new Core\EntityFieldsController(
+			$repos[ 'change' ],
+			$repos[ 'add' ]
+		);
+
+		// the Core\UserFieldsController is a decorator for Core\EntityFieldsController
+		$controller = new Core\TermFieldsController(
+			$entity_controller,
+			$repos[ 'change' ],
+			$repos[ 'add' ]
+		);
+
+		return $controller;
+	}
+
+	/**
 	 * return an associative array of two
 	 * FieldHandlerRepository objects, one for handlers to change fields
 	 * one for handlers to add fields
