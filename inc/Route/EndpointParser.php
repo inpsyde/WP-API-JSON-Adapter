@@ -78,10 +78,21 @@ class EndpointParser {
 			return;
 		}
 
-		if ( isset( $segments[ 1 ] ) && is_numeric( $segments[ 1 ] ) )
-			$this->is_single_entity = TRUE;
-		else
-			$this->is_single_entity = FALSE;
+		switch ( $this->entity ) {
+			case 'posts' :
+			case 'users' :
+				if ( isset( $segments[ 1 ] ) && is_numeric( $segments[ 1 ] ) )
+					$this->is_single_entity = TRUE;
+				else
+					$this->is_single_entity = FALSE;
+
+				if ( 'users' === $this->entity ) {
+					if ( isset( $segments[ 1 ] ) && 'me' === $segments[ 1 ] )
+						$this->is_single_entity = TRUE;
+				}
+			break;
+		}
+
 	}
 
 	/**
