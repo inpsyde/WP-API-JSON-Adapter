@@ -7,6 +7,14 @@ use WPAPIAdapter\Core\FieldHandlerRepository;
 
 class FieldsControllerBuilder {
 
+	/**
+	 * Builds a Core\PostFieldsController with two FieldHandlerRepository objects
+	 * inside.
+	 *
+	 *
+	 *
+	 * @return Core\PostFieldsController
+	 */
 	public function build_post_fields_controller() {
 
 		$repos = $this->get_new_repositorys();
@@ -14,6 +22,7 @@ class FieldsControllerBuilder {
 			$repos[ 'change' ],
 			$repos[ 'add' ]
 		);
+		// the Core\PostFieldsController is a decorator for Core\EntityFieldsController
 		$controller = new Core\PostFieldsController(
 			$entity_controller,
 			$repos[ 'change' ],
@@ -24,6 +33,10 @@ class FieldsControllerBuilder {
 	}
 
 	/**
+	 * return an associative array of two
+	 * FieldHandlerRepository objects, one for handlers to change fields
+	 * one for handlers to add fields
+	 *
 	 * @return array
 	 */
 	private function get_new_repositorys() {

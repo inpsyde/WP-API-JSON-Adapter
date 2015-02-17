@@ -6,6 +6,15 @@ use WPAPIAdapter;
 use WPAPIAdapter\Iterator;
 use WPAPIAdapter\Field;
 
+/**
+ * Class EntityFieldsController
+ *
+ * General Controller for any entity type (post, user, term).
+ * Iterates over each entity object in the set of the response and
+ * apply an Iterator\EntityFieldsIterator.
+ *
+ * @package WPAPIAdapter\Core
+ */
 class EntityFieldsController implements FieldsControllerInterface {
 
 	/**
@@ -50,7 +59,6 @@ class EntityFieldsController implements FieldsControllerInterface {
 	 * @return void
 	 */
 	public function dispatch( \WP_JSON_Response $response ) {
-
 
 		// apply change handlers
 		if ( $this->is_single_entity )

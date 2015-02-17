@@ -3,7 +3,12 @@
 
 namespace WPAPIAdapter\Core;
 
-
+/**
+ * FieldControllers should take care of the iterating over each entity in the set
+ * of JSON response implemented in the dispatch() method
+ *
+ * @package WPAPIAdapter\Core
+ */
 interface FieldsControllerInterface {
 
 	/**
