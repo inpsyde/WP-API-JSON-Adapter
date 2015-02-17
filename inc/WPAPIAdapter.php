@@ -35,6 +35,11 @@ class WPAPIAdapter {
 			'users',
 			$this->fields_ctrl_builder->build_user_fields_controller()
 		);
+		$data_shaper->add_entity_controller(
+			'terms',
+			$this->fields_ctrl_builder->build_term_fields_controller()
+		);
+
 		// Todo: more entities up to come
 
 		add_filter( 'json_pre_dispatch', array( $data_shaper, 'shape_data' ), 10, 2 );
