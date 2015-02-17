@@ -11,7 +11,7 @@ namespace WPAPIAdapter\Core;
  *
  * @package WPAPIAdapter\Core
  */
-class TermFieldsController {
+class TermFieldsController implements FieldsControllerInterface {
 
 	/**
 	 * @type EntityFieldsController
