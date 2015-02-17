@@ -90,7 +90,23 @@ class EndpointParser {
 					if ( isset( $segments[ 1 ] ) && 'me' === $segments[ 1 ] )
 						$this->is_single_entity = TRUE;
 				}
-			break;
+				break;
+
+			case 'taxonomies' :
+
+				if ( isset( $segments[ 1 ] ) && ! isset ( $segments[ 2 ] ) ) {
+					/* /taxonomies/category */
+					$this->is_single_entity = TRUE;
+				} elseif ( isset( $segments[ 2 ] ) && 'terms' === $segments[ 2 ] ) {
+					/* /taxonomies/category/terms */
+					$this->entity = 'terms';
+					$this->is_single_entity = FALSE;
+
+					/* /taxonomies/category/terms/12 */
+					if ( isset( $segments[ 3 ] ) && is_numeric( $segments[ 3 ] ) )
+						$this->is_single_entity = TRUE;
+				}
+				break;
 		}
 
 	}
@@ -104,7 +120,8 @@ class EndpointParser {
 			'posts',
 			'users',
 			'terms',
-			'menus'
+			'menus',
+			'taxonomies'
 		);
 
 		return $entities;

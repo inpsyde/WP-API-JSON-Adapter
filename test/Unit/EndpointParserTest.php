@@ -86,7 +86,7 @@ class EndpointParserTest extends TestCase\MockCollectionTestCase {
 					'entity'    => 'menus'
 				)
 			),
-			#4:
+			#5:
 			array(
 				# 1.parameter $path
 				'/foo',
@@ -95,7 +95,57 @@ class EndpointParserTest extends TestCase\MockCollectionTestCase {
 					'is_single' => FALSE,
 					'entity'    => 'unknown_entity'
 				)
-			)
+			),
+			#6:
+			array(
+				# 1.parameter $path
+				'/users/me',
+				# 2.parameter $expected
+				array(
+					'is_single' => TRUE,
+					'entity'    => 'users'
+				)
+			),
+			#6:
+			array(
+				# 1.parameter $path
+				'/taxonomies',
+				# 2.parameter $expected
+				array(
+					'is_single' => FALSE,
+					'entity'    => 'taxonomies'
+				)
+			),
+			#7:
+			array(
+				# 1.parameter $path
+				'/taxonomies/category',
+				# 2.parameter $expected
+				array(
+					'is_single' => TRUE,
+					'entity'    => 'taxonomies'
+				)
+			),
+			#8:
+			array(
+				# 1.parameter $path
+				'/taxonomies/category/terms',
+				# 2.parameter $expected
+				array(
+					'is_single' => FALSE,
+					'entity'    => 'terms'
+				)
+			),
+			#9:
+			array(
+				# 1.parameter $path
+				'/taxonomies/category/terms/3',
+				# 2.parameter $expected
+				array(
+					'is_single' => TRUE,
+					'entity'    => 'terms'
+				)
+			),
 		);
 	}
 }
