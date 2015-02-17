@@ -79,6 +79,30 @@ class FieldsControllerBuilder {
 	}
 
 	/**
+	 * Builds a Core\MenuFieldsController with two FieldHandlerRepository objects
+	 * inside.
+	 *
+	 * @return Core\TermFieldsController
+	 */
+	public function build_menu_fields_controller() {
+
+		$repos = $this->get_new_repositories();
+		$entity_controller = new Core\EntityFieldsController(
+			$repos[ 'change' ],
+			$repos[ 'add' ]
+		);
+
+		// the Core\MenuFieldsController is a decorator for Core\EntityFieldsController
+		$controller = new Core\MenuFieldsController(
+			$entity_controller,
+			$repos[ 'change' ],
+			$repos[ 'add' ]
+		);
+
+		return $controller;
+	}
+
+	/**
 	 * return an associative array of two
 	 * FieldHandlerRepository objects, one for handlers to change fields
 	 * one for handlers to add fields
