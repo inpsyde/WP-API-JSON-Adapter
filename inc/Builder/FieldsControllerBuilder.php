@@ -15,7 +15,7 @@ class FieldsControllerBuilder {
 	 */
 	public function build_post_fields_controller() {
 
-		$repos = $this->get_new_repositorys();
+		$repos = $this->get_new_repositories();
 		$entity_controller = new Core\EntityFieldsController(
 			$repos[ 'change' ],
 			$repos[ 'add' ]
@@ -38,7 +38,7 @@ class FieldsControllerBuilder {
 	 */
 	public function build_user_fields_controller() {
 
-		$repos = $this->get_new_repositorys();
+		$repos = $this->get_new_repositories();
 		$entity_controller = new Core\EntityFieldsController(
 			$repos[ 'change' ],
 			$repos[ 'add' ]
@@ -61,7 +61,7 @@ class FieldsControllerBuilder {
 	 *
 	 * @return array
 	 */
-	private function get_new_repositorys() {
+	private function get_new_repositories() {
 
 		return array(
 			'add'    => new FieldHandlerRepository,
