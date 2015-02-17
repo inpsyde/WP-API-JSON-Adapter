@@ -39,8 +39,12 @@ class WPAPIAdapter {
 			'terms',
 			$this->fields_ctrl_builder->build_term_fields_controller()
 		);
+		$data_shaper->add_entity_controller(
+			'menus',
+			$this->fields_ctrl_builder->build_menu_fields_controller()
+		);
 
-		// Todo: more entities up to come
+		// Todo: register a controller for taxonomies
 
 		add_filter( 'json_pre_dispatch', array( $data_shaper, 'shape_data' ), 10, 2 );
 	}
