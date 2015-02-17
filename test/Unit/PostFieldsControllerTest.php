@@ -24,6 +24,8 @@ class PostFieldsControllerTest extends TestCase\MockCollectionTestCase {
 	}
 
 	/**
+	 * Test if the desired filters gets properly called.
+	 *
 	 * @see PostFieldsController::dispatch()
 	 */
 	public function test_dispatch() {

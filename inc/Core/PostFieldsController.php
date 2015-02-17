@@ -3,8 +3,14 @@
 
 namespace WPAPIAdapter\Core;
 
-use WPAPIAdapter\Field\FieldHandlerInterface;
-
+/**
+ * Class PostFieldsController
+ *
+ * Decorator for the EntityFieldsController to apply post specific
+ * filters to the FieldHandlers.
+ *
+ * @package WPAPIAdapter\Core
+ */
 class PostFieldsController implements FieldsControllerInterface {
 
 	/**
