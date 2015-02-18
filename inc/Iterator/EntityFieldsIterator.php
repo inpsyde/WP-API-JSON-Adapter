@@ -49,12 +49,14 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 	}
 
 	/**
+	 * Process a single field identified by $this->key().
+	 *
 	 * @return bool
 	 */
 	public function process_field() {
 
-		$key = $this->key();
-		$handlers = $this->handler_repo->get_handlers( $key );
+		$field = $this->key();
+		$handlers = $this->handler_repo->get_handlers( $field );
 		if ( empty( $handlers ) )
 			return FALSE;
 
@@ -66,13 +68,13 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 
 			// delete the key if the name is empty
 			if ( ! $handler->get_name() ) {
-				$this->iterator->offsetUnset( $key );
+				$this->iterator->offsetUnset( $field );
 			// rename the field
-			} elseif ( $handler->get_name() !== $key )  {
-				$this->iterator->offsetUnset( $key );
+			} elseif ( $handler->get_name() !== $field )  {
+				$this->iterator->offsetUnset( $field );
 				$this->iterator->offsetSet( $handler->get_name(), $handler->get_value() );
 			} else {
-				$this->iterator->offsetSet( $key, $handler->get_value() );
+				$this->iterator->offsetSet( $field, $handler->get_value() );
 			}
 		}
 
