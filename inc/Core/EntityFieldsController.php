@@ -173,7 +173,7 @@ class EntityFieldsController implements FieldsControllerInterface {
 	 * @param array|object $entity
 	 * @return bool|\stdClass
 	 */
-	private function entity_to_object( $entity ) {
+	public function entity_to_object( $entity ) {
 
 		if ( is_object( $entity ) )
 			return $entity;
