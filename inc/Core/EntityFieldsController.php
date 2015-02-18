@@ -60,6 +60,10 @@ class EntityFieldsController implements FieldsControllerInterface {
 	 */
 	public function dispatch( \WP_JSON_Response $response ) {
 
+		// deploy the server to all registered handlers
+		if ( $this->server )
+			$this->deploy_server_to_handlers( $this->server );
+
 		// apply change handlers
 		if ( $this->is_single_entity )
 			$data_iterator = new \ArrayIterator( array( $response->get_data() ) );
@@ -141,7 +145,6 @@ class EntityFieldsController implements FieldsControllerInterface {
 	public function set_json_server( \WP_JSON_Server $server ) {
 
 		$this->server = $server;
-		$this->deploy_server_to_handlers( $server );
 	}
 
 	/**
