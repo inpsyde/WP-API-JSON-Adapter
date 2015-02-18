@@ -53,13 +53,11 @@ class EntityFieldsControllerTest extends TestCase\MockCollectionTestCase {
 			->method( 'get_value' )
 			->willReturn( 1 ); //must be 1 due to the $expected_data
 
-		/**
-		 * Method 'handle' won't invoked for new field handlers!
-		 */
+
 		$new_field_handler = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
 			->disableOriginalConstructor()
 			->getMock();
-		$new_field_handler->expects( $this->never() )
+		$new_field_handler->expects( $this->atLeast( 1 ) )
 			->method( 'handle' );
 		$new_field_handler->expects( $this->atLeast( 1 ) )
 			->method( 'get_name' )

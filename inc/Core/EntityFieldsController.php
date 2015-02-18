@@ -161,6 +161,7 @@ class EntityFieldsController implements FieldsControllerInterface {
 				if ( $entity_iterator->offsetExists( $handler->get_name() ) )
 					continue; // Todo: thinking about error handling. Not sure it's worth an Exeption.
 
+				$handler->handle( NULL ); // call this method to treat add/change handler the same way
 				$entity_iterator->offsetSet(
 					$handler->get_name(),
 					$handler->get_value()
