@@ -12,14 +12,35 @@ are handled separately to those which add new fields.
 To access the repositories there are two actions provided:
  * `wpapiadapter_register_post_change_field_handler`
  * `wpapiadapter_register_post_add_field_handler`
+(Applied in `Core\PostFieldsController::dispatch()`.)
 
 There are already two handler implementations to rename or unset a field:
   * `WPAPIAdapter\Field\RenameFieldHandler`
   * `WPAPIAdapter\Field\UnsetFieldHandler`
 
+## Terms
+The handler repositories are provided with the actions:
+ * `wpapiadapter_register_term_change_field_handler`
+ * `wpapiadapter_register_term_add_field_handler`
+(Applied in `Core\TermFieldsController::dispatch()`.)
+
+## Users
+The handler repositories are provided with the actions:
+ * `wpapiadapter_register_user_change_field_handler`
+ * `wpapiadapter_register_user_add_field_handler`
+(Applied in `Core\UserFieldsController::dispatch()`.)
+
+## Menus
+_Note: Menus are not part of the default WP-API so far. The Adapter looks for a `/wp-json/menus` route._
+
+The handler repositories are provided with the actions:
+ * `wpapiadapter_register_menu_change_field_handler`
+ * `wpapiadapter_register_menu_add_field_handler`
+(Applied in `Core\MenuFieldsController::dispatch()`.)
+
 ### Example
 
-Rename the `title` field to `custom_title`:
+Rename the `title` field of the `post` entity to `custom_title`:
 
 ```php
 add_action(
