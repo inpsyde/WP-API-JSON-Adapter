@@ -27,47 +27,28 @@ class TermFieldsControllerTest extends TestCase\MockCollectionTestCase {
 	 * Test if the desired filters gets properly called.
 	 *
 	 * @see PostFieldsController::dispatch()
+	 * @dataProvider dispatch_provider
+	 * @param mixed $response_data
+	 * @param bool $single_entity
+	 * @param string $taxonomy
+	 * @param mixed $expected
 	 */
-	public function test_dispatch() {
+	public function test_dispatch( $response_data, $single_entity, $taxonomy, $expected ) {
 
 		$json_response_mock = $this->get_json_response_mock();
-		$data = array(
-			array(
-				'ID' => 1,
-				'name' => 'Apple',
-				'slug' => 'apple'
-			),
-			array(
-				'ID' => 2,
-				'name' => 'Banana',
-				'slug' => 'banana'
-			),
-		);
-
-		$expected_data = array();
-		foreach ( $data as $term ) {
-			$term[ 'taxonomy' ] = 'category';
-			$expected_data[] = (object) $term;
-		}
-
 		$json_response_mock->expects( $this->atLeast( 1 ) )
 			->method( 'get_data' )
-			->willReturn( $data );
+			->willReturn( $response_data );
 
+		$phpunit = $this;
 		$json_response_mock->expects( $this->atLeast( 1 ) )
 			->method( 'set_data' )
 			->with(
 				$this->callback(
-					function( $data ){
-						foreach ( $data as $term ) {
-							if ( ! is_object( $term ) )
-								return FALSE;
-							if ( ! isset( $term->taxonomy ) )
-								return FALSE;
-							if ( 'category' !== $term->taxonomy )
-								return FALSE;
-						}
-
+					function( $data ) use ( $expected, $phpunit ) {
+						// it's better to use an assertion here because it displays the
+						// diffs when it fails
+						$phpunit->assertEquals( $expected, $data );
 						return TRUE;
 					}
 				)
@@ -77,7 +58,7 @@ class TermFieldsControllerTest extends TestCase\MockCollectionTestCase {
 		$entity_controller_mock->expects( $this->exactly( 1 ) )
 			->method( 'dispatch' )
 			->with( $json_response_mock );
-		$entity_controller_mock->expects( $this->exactly( 2  ) )
+		$entity_controller_mock->expects( $this->atLeast( 1 ) )
 			->method( 'entity_to_object' )
 			->willReturnCallback(
 				function( array $data ) {
@@ -89,7 +70,7 @@ class TermFieldsControllerTest extends TestCase\MockCollectionTestCase {
 		$add_repo_mock = $this->get_field_repository_mock();
 
 		$json_server_mock = new \WP_JSON_Server;
-		$json_server_mock->path = '/taxonomy/category/terms';
+		$json_server_mock->path = '/taxonomy/' . $taxonomy .'/terms';
 
 		/**
 		 * wp mock
@@ -111,7 +92,7 @@ class TermFieldsControllerTest extends TestCase\MockCollectionTestCase {
 			'taxonomy_exists',
 			array(
 				'times'  => 1,
-				'args'   => 'category',
+				'args'   => $taxonomy,
 				'return' => TRUE
 			)
 		);
@@ -121,10 +102,14 @@ class TermFieldsControllerTest extends TestCase\MockCollectionTestCase {
 			$edit_repo_mock,
 			$add_repo_mock
 		);
+		$testee->set_single_entity( $single_entity );
 		$testee->set_json_server( $json_server_mock );
 		$testee->dispatch( $json_response_mock );
 	}
 
+	/**
+	 * @see TermFieldsController::get_taxonomy()
+	 */
 	public function test_get_taxonomy() {
 
 		$json_server_mock = new \WP_JSON_Server;
@@ -154,6 +139,75 @@ class TermFieldsControllerTest extends TestCase\MockCollectionTestCase {
 			'category',
 			$testee->get_taxonomy()
 		);
+	}
+
+	/**
+	 * @see test_dispatch()
+	 * @return array
+	 */
+	public function dispatch_provider() {
+
+		$data = array(
+			#0:
+			array(
+				#1. Parameter $response_data
+				array(
+					array(
+						'ID'   => 1,
+						'name' => 'Apple',
+						'slug' => 'apple'
+					),
+					array(
+						'ID'   => 2,
+						'name' => 'Banana',
+						'slug' => 'banana'
+					),
+				),
+
+				#2. parameter $single_entity
+				FALSE,
+				#3. parameter $taxonomy
+				'category',
+				#4. parameter $expected output
+				array(
+					(object) array(
+						'ID'       => 1,
+						'name'     => 'Apple',
+						'slug'     => 'apple',
+						'taxonomy' => 'category'
+					),
+					(object) array(
+						'ID'       => 2,
+						'name'     => 'Banana',
+						'slug'     => 'banana',
+						'taxonomy' => 'category'
+					),
+				)
+			),
+			#1:
+			array(
+				#1. Parameter $response_data
+				array(
+					'ID'   => 1,
+					'name' => 'Apple',
+					'slug' => 'apple'
+				),
+
+				#2. parameter $single_entity
+				TRUE,
+				#3. parameter $taxonomy
+				'category',
+				#4. parameter $expected output
+				(object) array(
+					'ID'       => 1,
+					'name'     => 'Apple',
+					'slug'     => 'apple',
+					'taxonomy' => 'category'
+				)
+			)
+		);
+
+		return $data;
 	}
 }
  
