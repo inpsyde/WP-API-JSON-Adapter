@@ -124,7 +124,7 @@ class TermFieldsController implements FieldsControllerInterface {
 			return;
 
 		if ( $this->is_single_entity ) {
-			$this->controller->entity_to_object( $data );
+			$data = $this->controller->entity_to_object( $data );
 			if ( ! isset ( $data->taxonomy ) )
 				$data->taxonomy = $this->get_taxonomy();
 		} else {
