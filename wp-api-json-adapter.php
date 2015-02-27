@@ -3,10 +3,11 @@
 /**
  * Plugin Name: WP API JSON adapter
  * Description: A package that allows developers to adapt the structure of the JSON response of the REST API.
- * Plugin URL:
+ * Plugin URL: https://github.com/inpsyde/WP-API-JSON-Adapter
  * Author: Inpsyde GmbH
  * Author URL: http://inpsyde.com
- * Version: 2015.02.19
+ * Version: 2015.02.27
+ * Licence: MIT
  */
 
 namespace WPAPIAdapter;

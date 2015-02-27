@@ -42,6 +42,13 @@ class EntityFieldsController implements FieldsControllerInterface {
 	private $server;
 
 	/**
+	 * current original entity
+	 *
+	 * @type \stdClass
+	 */
+	private $original_entity;
+
+	/**
 	 * @param \WPAPIAdapter\Core\FieldHandlerRepository $change_repository
 	 * @param \WPAPIAdapter\Core\FieldHandlerRepository $add_repository
 	 */
@@ -100,6 +107,7 @@ class EntityFieldsController implements FieldsControllerInterface {
 	 */
 	private function iterate_entity( \stdClass $entity ) {
 
+		$this->original_entity = clone $entity;
 		$entity_iterator = new Iterator\EntityFieldsIterator( $entity, $this->change_repository );
 		while ( $entity_iterator->valid() ) {
 			$entity_iterator->process_field();
@@ -153,11 +161,10 @@ class EntityFieldsController implements FieldsControllerInterface {
 	 */
 	private function attach_new_fields( \stdClass $entity, \ArrayAccess $entity_iterator ) {
 
-		$original_entity = clone $entity;
 		foreach ( $this->add_repository->get_fields_to_handle() as $field ) {
 			foreach ( $this->add_repository->get_handlers( $field ) as $handler ) {
 				/* @type Field\FieldHandlerInterface $handler */
-				$handler->set_original_entity( clone $original_entity );
+				$handler->set_original_entity( $this->original_entity );
 				if ( $entity_iterator->offsetExists( $handler->get_name() ) )
 					continue; // Todo: thinking about error handling. Not sure it's worth an Exeption.
 
