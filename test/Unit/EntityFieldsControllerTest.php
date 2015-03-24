@@ -53,7 +53,6 @@ class EntityFieldsControllerTest extends TestCase\MockCollectionTestCase {
 			->method( 'get_value' )
 			->willReturn( 1 ); //must be 1 due to the $expected_data
 
-
 		$new_field_handler = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
 			->disableOriginalConstructor()
 			->getMock();
@@ -66,21 +65,35 @@ class EntityFieldsControllerTest extends TestCase\MockCollectionTestCase {
 			->method( 'get_value' )
 			->willReturn( "I'm new" ); //must be 1 due to the $expected_data
 
+		// this simulates a handler which returns '' on get_name()
+		// so the field should not gets append to the object
+		$reject_new_field_handler = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+		$reject_new_field_handler->expects( $this->atLeast( 1 ) )
+			->method( 'get_name' )
+			->willReturn( '' );
+		$reject_new_field_handler->expects( $this->never() )
+			->method( 'handle' );
+		$reject_new_field_handler->expects( $this->never() )
+			->method( 'get_value' );
+
 		$change_field_handlers = array(
 			'author' => array(
 				$author_handler
 			)
 		);
-
 		$add_field_handlers = array(
 			'custom_field' => array(
 				$new_field_handler
+			),
+			'void' => array(
+				$reject_new_field_handler
 			)
 		);
 
 		$edit_field_repo = $this->get_field_repository_mock( $change_field_handlers );
 		$add_field_repo = $this->get_field_repository_mock( $add_field_handlers );
-
 
 		$testee = new Core\EntityFieldsController( $edit_field_repo, $add_field_repo );
 		$testee->set_json_server( $json_server_mock );

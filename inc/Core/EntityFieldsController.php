@@ -165,8 +165,8 @@ class EntityFieldsController implements FieldsControllerInterface {
 			foreach ( $this->add_repository->get_handlers( $field ) as $handler ) {
 				/* @type Field\FieldHandlerInterface $handler */
 				$handler->set_original_entity( $this->original_entity );
-				if ( $entity_iterator->offsetExists( $handler->get_name() ) )
-					continue; // Todo: thinking about error handling. Not sure it's worth an Exeption.
+				if ( ! $handler->get_name() || $entity_iterator->offsetExists( $handler->get_name() ) )
+					continue; // Todo: thinking about error handling. Not sure it's worth an Exception.
 
 				$handler->handle( NULL ); // call this method to treat add/change handler the same way
 				$entity_iterator->offsetSet(
