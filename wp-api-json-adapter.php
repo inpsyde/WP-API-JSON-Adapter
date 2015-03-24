@@ -6,7 +6,7 @@
  * Plugin URL: https://github.com/inpsyde/WP-API-JSON-Adapter
  * Author: Inpsyde GmbH
  * Author URL: http://inpsyde.com
- * Version: 2015.02.27
+ * Version: 2015.03.24
  * Licence: MIT
  */
 
