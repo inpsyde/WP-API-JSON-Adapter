@@ -28,9 +28,14 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 	private $iterator;
 
 	/**
-	 * @type
+	 * @type Core\FieldHandlerRepository
 	 */
 	private $handler_repo;
+
+	/**
+	 * @type int
+	 */
+	private $index = 0;
 
 	/**
 	 * @param \stdClass $entity
@@ -69,13 +74,24 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 			// delete the key if the name is empty
 			if ( ! $handler->get_name() ) {
 				$this->iterator->offsetUnset( $field );
+				// set the index to the ancestor field because next() will be move it to the correct position
+				$this->index--;
+				$this->iterator->seek( $this->index );
+				// stop invoking more handlers if this one dropped the field
+				break;
 			// rename the field
-			} elseif ( $handler->get_name() !== $field )  {
+			}
+			if ( $handler->get_name() !== $field ) {
 				$this->iterator->offsetUnset( $field );
 				$this->iterator->offsetSet( $handler->get_name(), $handler->get_value() );
-			} else {
-				$this->iterator->offsetSet( $field, $handler->get_value() );
+				// set the index to the ancestor field because next() will be move it to the correct position
+				$this->index--;
+				$this->iterator->seek( $this->index );
+				// stop invoking more handlers if the field got renamed
+				break;
 			}
+
+			$this->iterator->offsetSet( $field, $handler->get_value() );
 		}
 
 		return TRUE;
@@ -103,6 +119,7 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 	public function next() {
 
 		$this->iterator->next();
+		$this->index ++;
 	}
 
 	/**
@@ -140,6 +157,7 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 	public function rewind() {
 
 		$this->iterator->rewind();
+		$this->index = 0;
 	}
 
 	/**
@@ -215,5 +233,4 @@ class EntityFieldsIterator implements \Iterator, \ArrayAccess, Core\FieldProcess
 
 		$this->iterator->offsetUnset( $offset );
 	}
-
 }
