@@ -336,7 +336,6 @@ class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 	 */
 	public function test_no_multiple_iteration() {
 
-		$this->markTestSkipped();
 		$entity = $this->get_test_entiy();
 		$entity_array = get_object_vars( $entity );
 
@@ -385,10 +384,10 @@ class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 			->method( 'handle' );
 		$author_handler_mock->expects( $this->any() )
 			->method( 'get_name' )
-			->willReturn( 'author' );
+			->willReturn( 'author_ID' );
 		$author_handler_mock->expects( $this->any() )
 			->method( 'get_value' )
-			->willReturn( $entity->author );
+			->willReturn( $entity->author[ 'ID' ] );
 
 		// register a handler that unsets the 4th field "status"
 		$status_handler_mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
@@ -400,13 +399,34 @@ class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 			->method( 'get_name' )
 			->willReturn( '' );
 
+		// remove the last two fields
+		$modified_handler = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+		$modified_handler->expects( $this->once() )
+			->method( 'handle' );
+		$modified_handler->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( '' );
+
+		$meta_handler = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+		$meta_handler->expects( $this->once() )
+			->method( 'handle' );
+		$meta_handler->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( '' );
+
 		$handler_repo_mock = $this->get_field_handler_repository_mock(
 			array(
-				'ID'      => array( $ID_handler_mock ),
-				'title'   => array( $title_handler_mock ),
-				'content' => array( $content_handler_mock ),
-				'status'  => array( $status_handler_mock ),
-				'author'  => array( $author_handler_mock )
+				'ID'           => array( $ID_handler_mock ),
+				'title'        => array( $title_handler_mock ),
+				'content'      => array( $content_handler_mock ),
+				'status'       => array( $status_handler_mock ),
+				'author'       => array( $author_handler_mock ),
+				'modified_gmt' => array( $modified_handler ),
+				'meta'         => array( $meta_handler ),
 			)
 		);
 
@@ -416,20 +436,28 @@ class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 			$testee->next();
 		}
 
+
 		// check data consistency
 		foreach ( array_keys( $entity_array ) as $field ) {
-			if ( 'status' === $field ) {
-				$this->assertObjectNotHasAttribute(
-					$field,
-					$entity
-				);
-				continue;
+			switch ( $field )  {
+				case  'status' :
+				case 'modified_gmt' :
+				case 'meta' :
+					$this->assertObjectNotHasAttribute(
+						$field,
+						$entity
+					);
+					break;
+				case 'author' :
+					$field = 'author_ID';
+					# indeed: no break!
+				default :
+					$this->assertObjectHasAttribute(
+						$field,
+						$entity
+					);
+					break;
 			}
-
-			$this->assertObjectHasAttribute(
-				$field,
-				$entity
-			);
 		}
 	}
 
@@ -446,6 +474,11 @@ class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 			'author'  => array(
 				'ID' => 12,
 				'name' => 'John'
+			),
+			'date_gmt' => '2015-03-28 14:51:25',
+			'modified_gmt' => '2015-03-28 14:52:10',
+			'meta' => array(
+				'foo' => 'bar'
 			)
 		);
 	}
