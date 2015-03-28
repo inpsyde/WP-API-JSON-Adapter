@@ -253,11 +253,10 @@ class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 	 * test whether the iterator also invokes dynamically changed (new) keys
 	 */
 	public function test_iteration_of_dynamic_keys() {
+
 		$entity = $this->get_test_entiy();
 		$entity_array = get_object_vars( $entity );
 		$keys = array_keys( $entity_array );
-
-
 
 		// rename the author field to author_ID
 		$rename_author_mock = $this->get_rename_field_handler_mock();
@@ -329,6 +328,111 @@ class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 			$entity->author_ID
 		);
 	}
+
+	/**
+	 * test of no internal multiple iterations
+	 *
+	 * @link https://github.com/inpsyde/WP-API-JSON-Adapter/issues/4
+	 */
+	public function test_no_multiple_iteration() {
+
+		$this->markTestSkipped();
+		$entity = $this->get_test_entiy();
+		$entity_array = get_object_vars( $entity );
+
+		// Register a handler for all fields. each of them should
+		// get invoked only once.
+		$ID_handler_mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+		$ID_handler_mock->expects( $this->once() )
+			->method( 'handle' );
+		$ID_handler_mock->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'ID' );
+		$ID_handler_mock->expects( $this->any() )
+			->method( 'get_value' )
+			->willReturn( $entity->ID );
+
+		$title_handler_mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+		$title_handler_mock->expects( $this->once() )
+			->method( 'handle' );
+		$title_handler_mock->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'title' );
+		$title_handler_mock->expects( $this->any() )
+			->method( 'get_value' )
+			->willReturn( $entity->title );
+
+		$content_handler_mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+		$content_handler_mock->expects( $this->once() )
+			->method( 'handle' );
+		$content_handler_mock->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'content' );
+		$content_handler_mock->expects( $this->any() )
+			->method( 'get_value' )
+			->willReturn( $entity->content );
+
+		$author_handler_mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+		$author_handler_mock->expects( $this->once() )
+			->method( 'handle' );
+		$author_handler_mock->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( 'author' );
+		$author_handler_mock->expects( $this->any() )
+			->method( 'get_value' )
+			->willReturn( $entity->author );
+
+		// register a handler that unsets the 4th field "status"
+		$status_handler_mock = $this->getMockBuilder( '\WPAPIAdapter\Field\RenameFieldHandler' )
+			->disableOriginalConstructor()
+			->getMock();
+		$status_handler_mock->expects( $this->once() )
+			->method( 'handle' );
+		$status_handler_mock->expects( $this->any() )
+			->method( 'get_name' )
+			->willReturn( '' );
+
+		$handler_repo_mock = $this->get_field_handler_repository_mock(
+			array(
+				'ID'      => array( $ID_handler_mock ),
+				'title'   => array( $title_handler_mock ),
+				'content' => array( $content_handler_mock ),
+				'status'  => array( $status_handler_mock ),
+				'author'  => array( $author_handler_mock )
+			)
+		);
+
+		$testee = new WPAPIAdapter\Iterator\EntityFieldsIterator( $entity, $handler_repo_mock );
+		while ( $testee->valid() ) {
+			$testee->process_field();
+			$testee->next();
+		}
+
+		// check data consistency
+		foreach ( array_keys( $entity_array ) as $field ) {
+			if ( 'status' === $field ) {
+				$this->assertObjectNotHasAttribute(
+					$field,
+					$entity
+				);
+				continue;
+			}
+
+			$this->assertObjectHasAttribute(
+				$field,
+				$entity
+			);
+		}
+	}
+
 	/**
 	 * @return object
 	 */
