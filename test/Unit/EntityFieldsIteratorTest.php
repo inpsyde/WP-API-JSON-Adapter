@@ -105,7 +105,7 @@ class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 
 		$entity = $this->get_test_entiy();
 		$entity_array = get_object_vars( $entity );
-		$keys = array_keys( $entity_array );
+		$entity_fields = array_keys( $entity_array );
 
 		// to unset a field, the handler has to return an empty string on get_name()
 		// we want to rename author to author_ID
@@ -138,24 +138,24 @@ class EntityFieldsIteratorTest extends TestCase\MockCollectionTestCase {
 		};
 
 		// check existence of any key except 'status' and 'author'
-		foreach ( $keys as $key ) {
-			switch ( $key ) {
+		foreach ( $entity_fields as $field ) {
+			switch ( $field ) {
 				case 'status' :
 				case 'author' :
 					$this->assertObjectNotHasAttribute(
-						$key,
+						$field,
 						$entity
 					);
 					break;
 				default :
 					$this->assertObjectHasAttribute(
-						$key,
+						$field,
 						$entity
 					);
 					// check data consistency
 					$this->assertEquals(
-						$entity_array[ $key ],
-						$entity->{ $key }
+						$entity_array[ $field ],
+						$entity->{ $field }
 					);
 					break;
 			}
