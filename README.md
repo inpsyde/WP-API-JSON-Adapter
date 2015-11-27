@@ -152,3 +152,13 @@ class MyCustomAuthorField implements WPAPIAdapter\Field\FieldHandlerInterface {
     }
 }
 ```
+
+
+
+## Other Notes
+###Crafted by [Inpsyde](http://inpsyde.com) · Engineering the web since 2006.###
+Yes, we also run that [marketplace for premium WordPress plugins and themes](http://marketpress.com).
+
+### License
+Good news, this plugin is free for everyone! Since it's released under the MIT license, 
+you can use it free of charge on your personal or commercial blog.
