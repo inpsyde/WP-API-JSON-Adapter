@@ -1,4 +1,16 @@
 {
+    "name": "inpsyde/wp_api_json_adapter",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Naber",
+            "email": "d.naber@inpsyde.com",
+            "role": "developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
     "require-dev": {
         "10up/wp_mock": "1.0.x-dev"
     }
